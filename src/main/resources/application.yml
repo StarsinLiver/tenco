@@ -1,0 +1,44 @@
+server: 
+  port: 80
+  servlet: 
+    encoding: 
+      charset: utf-8
+      force: true
+
+
+spring: 
+  mvc: 
+    view:
+      prefix: /WEB-INF/view/
+      suffix: .jsp
+  datasource:
+    url: jdbc:mysql://localhost:3306/mybank?serverTimeZone=Asia/Seoul
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: asd1234
+            
+#  h2:
+#    console:
+#      enabled: true
+#  output:
+#    ansi:
+#      enabled: always
+
+# mybatis options
+mybatis:
+  mapper-locations:
+  - classpath:mapper/**/*.xml
+  configuration:
+  # sql 명명법
+    map-underscore-to-camel-case: true
+    # sql 결과로 null 값 허용
+    call-setters-on-nulls: true
+    # sql 매개변수에 null 값 허용 (에러 발생시 server 다운 현상 방지)
+    jdbc-type-for-null: null
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+   
+# 로깅 레벨
+logging:
+  level:
+    org.mybatis: DEBUG
+  
