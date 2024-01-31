@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class History {
 	private Integer id;
-	private Long amount;
-	private Integer wAccountId;
-	private Integer dAccountId;
-	private Long wBalance;
-	private Long dBalance;
+	private Long amount;		// 입출금 금액
+	private Integer wAccountId;	// 출금 계좌
+	private Integer dAccountId;	// 입금 계좌
+	private Long wBalance;		// 출금 계좌 잔액
+	private Long dBalance;		// 입금 계좌 잔액
 	private Timestamp createdAt;
 }

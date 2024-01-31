@@ -10,12 +10,12 @@
 		<div class="form-group">
 			<label for="username">Username:</label> <input type="text"
 				class="form-control" name="username" placeholder="Enter email"
-				id="username">
+				id="username" value="길동">
 		</div>
 		<div class="form-group">
 			<label for="password">Password:</label> <input type="password"
 				class="form-control" name="password" placeholder="Enter password"
-				id="password">
+				id="password" value="1234">
 		</div>
 
 		<button type="submit" class="btn btn-primary">로그인</button>

@@ -60,19 +60,20 @@
     <div class="col-sm-4">
       <h2>About Me</h2>
       <h5>Photo of me:</h5>
+      <h3>${principal.username} 계정</h3>
       <div class="m--profile"></div>
       <p>중단기 심화 - 은행 관리 시스템 예제</p>
       <h3>Some Links</h3>
       <p>Lorem ipsum dolor sit ame.</p>
       <ul class="nav nav-pills flex-column">
         <li class="nav-item">
-          <a class="nav-link active" href="#">계좌 생성</a>
+          <a class="nav-link" href="/account/save">계좌 생성</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">계좌 목록</a>
+          <a class="nav-link" href="/account/list">계좌 목록</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">출금</a>
+          <a class="nav-link" href="/account/withdraw">출금</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">입금</a>

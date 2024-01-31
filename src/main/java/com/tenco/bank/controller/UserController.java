@@ -13,6 +13,7 @@ import com.tenco.bank.dto.SignUpFormDto;
 import com.tenco.bank.handler.exception.CustomRestfullException;
 import com.tenco.bank.repository.entity.User;
 import com.tenco.bank.service.UserService;
+import com.tenco.bank.utils.Define;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -46,15 +47,15 @@ public class UserController {
 //		1. 인증검사 x
 //		2. 유효성 검사
 		if (dto.getUsername() == null || dto.getUsername().isEmpty()) {
-			throw new CustomRestfullException("username을 입력하세요", HttpStatus.BAD_REQUEST);
+			throw new CustomRestfullException(Define.ENTER_YOUR_USERNAME, HttpStatus.BAD_REQUEST);
 		}
 
 		if (dto.getPassword() == null || dto.getPassword().isEmpty()) {
-			throw new CustomRestfullException("password를 입력하세요", HttpStatus.BAD_REQUEST);
+			throw new CustomRestfullException(Define.ENTER_YOUR_PASSWORD, HttpStatus.BAD_REQUEST);
 		}
 
 		if (dto.getFullname() == null || dto.getFullname().isEmpty()) {
-			throw new CustomRestfullException("fullname을 입력하세요", HttpStatus.BAD_REQUEST);
+			throw new CustomRestfullException(Define.ENTER_YOUR_FULLNAME, HttpStatus.BAD_REQUEST);
 		}
 
 		userService.createUser(dto);
@@ -74,28 +75,26 @@ public class UserController {
 	/**
 	 * 로그인 요청 처리
 	 * @param SignInFormDto
-	 * @return 추후 account/list 페이지로 이동 예정 (todo)
+	 * @return account/list
 	 */
 	@PostMapping("/sign-in")
 	public String signInProc(SignInFormDto dto) {
 //		1. 유효성 검사
 		if (dto.getUsername() == null || dto.getUsername().isEmpty()) {
-			throw new CustomRestfullException("username을 입력하시오", HttpStatus.BAD_REQUEST);
+			throw new CustomRestfullException(Define.ENTER_YOUR_USERNAME, HttpStatus.BAD_REQUEST);
 		}
 
 		if (dto.getPassword() == null || dto.getPassword().isEmpty()) {
-			throw new CustomRestfullException("password을 입력하시오", HttpStatus.BAD_REQUEST);
+			throw new CustomRestfullException(Define.ENTER_YOUR_PASSWORD, HttpStatus.BAD_REQUEST);
 		}
 
 //		서비스 호출 예정
 		User user = userService.readUser(dto);
 //		접근 주체
-		httpSession.setAttribute("principal", user);
-
+		httpSession.setAttribute(Define.PRINCIPAL, user);
+		
 //		로그인 완료 --> 페이지 결정(/account/list)
-//		todo 수정 예정 (현재 접근 경로 없음)
-
-		return "redirect:/user/sign-in";
+		return "redirect:/account/list";
 	}
 	
 //	로그아웃 기능
