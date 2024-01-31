@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tenco.bank.dto.AccountSaveFormDto;
 import com.tenco.bank.dto.DepositFormDto;
+import com.tenco.bank.dto.TransferFormDto;
 import com.tenco.bank.dto.WithdrawFormDto;
 import com.tenco.bank.handler.exception.CustomRestfulException;
 import com.tenco.bank.handler.exception.UnAuthorizedException;
@@ -184,5 +185,60 @@ public class AccountController {
 		accountService.updateAccountDeposit(dto, principal.getId());
 		
 		return "redirect:/account/list";
+	}
+	
+//	이체 기능만들기
+//	1. 출금 계좌 존재 여부
+//	2. 입금 계좌 존재 확인
+//	3. 출금 계좌 본인 소유 확인
+//	4. 출금 계좌 비번 확인
+//	5. 출금 계좌 잔액 확인
+//	6. 출금 계좌 잔액 수정
+//	7. 입금 계좌 잔액 수정
+//	8. 거래 내역 등록 처리
+//	9.트랜잭션 처리
+	// 이체 페이지 요청
+	@GetMapping("/transfer")
+	public String transferPage() {
+		// 1. 인증 검사
+		User principal = (User) session.getAttribute(Define.PRINCIPAL); // 다운 캐스팅
+		if (principal == null) {
+			throw new UnAuthorizedException(Define.ENTER_YOUR_LOGIN, HttpStatus.UNAUTHORIZED);
+		}
+
+		return "account/transfer";
+	}
+	
+	
+	// 이체 요청 로직
+	@PostMapping("/transfer")
+	public String transferProc(TransferFormDto dto) {
+		// 1. 인증 검사
+		User principal = (User) session.getAttribute(Define.PRINCIPAL); // 다운 캐스팅
+		if (principal == null) {
+			throw new UnAuthorizedException(Define.ENTER_YOUR_LOGIN, HttpStatus.UNAUTHORIZED);
+		}
+		
+		// 2. 유효성 검사
+		if(dto.getAmount() == null) {
+			throw new CustomRestfulException(Define.ENTER_YOUR_BALANCE, HttpStatus.BAD_REQUEST);
+		}
+		if(dto.getAmount().longValue() <= 0) {
+			throw new CustomRestfulException(Define.D_BALANCE_VALUE, HttpStatus.BAD_REQUEST);
+		}
+		if(dto.getWAccountNumber() == null || dto.getWAccountNumber().isEmpty()) {
+			throw new CustomRestfulException("출금하실 계좌번호를 입력해주세요.", HttpStatus.BAD_REQUEST);
+		}
+		if(dto.getDAccountNumber() == null || dto.getDAccountNumber().isEmpty()) {
+			throw new CustomRestfulException("이체하실 계좌번호를 입력해주세요.", HttpStatus.BAD_REQUEST);
+		}
+		if(dto.getPassword() == null || dto.getPassword().isEmpty()) {
+			throw new CustomRestfulException(Define.ENTER_YOUR_PASSWORD, HttpStatus.BAD_REQUEST);
+		}
+		
+		// 서비스 호출
+		accountService.updateAccountTransfer(dto, principal.getId());
+		
+		return "redirect:/account/transfer";
 	}
 }
