@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tenco.bank.dto.SignInFormDto;
 import com.tenco.bank.dto.SignUpFormDto;
-import com.tenco.bank.handler.exception.CustomRestfullException;
+import com.tenco.bank.handler.exception.CustomRestfulException;
 import com.tenco.bank.handler.exception.UnAuthorizedException;
 import com.tenco.bank.repository.entity.User;
 import com.tenco.bank.repository.interfaces.UserRepository;
@@ -37,7 +37,7 @@ public class UserService {
 				.build();
 		int result = userRepository.insert(user);
 		if(result != 1) {
-			throw new CustomRestfullException(Define.FAIL_TO_CREATE_USER, HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomRestfulException(Define.FAIL_TO_CREATE_USER, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	

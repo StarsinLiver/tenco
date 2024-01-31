@@ -5,7 +5,8 @@ import java.text.DecimalFormat;
 
 import org.springframework.http.HttpStatus;
 
-import com.tenco.bank.handler.exception.CustomRestfullException;
+import com.tenco.bank.handler.exception.CustomRestfulException;
+import com.tenco.bank.utils.Define;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,29 +39,26 @@ public class Account {
 	public void deposit(Long amount)
 	{
 		this.balance += amount;
-		if (amount <= 0) {
-			// 잔액은 0이상 이런거 던지기
-		}
 	}
 	
 	// 패스워드 체크
 	public void checkPassword(String password) {
 		if(this.password.equals(password) == false) {
-			throw new CustomRestfullException("출금 계좌 비밀번호가 틀렸습니다.", HttpStatus.INTERNAL_SERVER_ERROR);			
+			throw new CustomRestfulException("계좌의 패스워드가 다릅니다.", HttpStatus.INTERNAL_SERVER_ERROR);			
 		}
 	}
 	
 	// 잔액 여부 확인 기능
 	public void checkBalance(Long amount) {
 		if(this.balance < amount) {
-			throw new CustomRestfullException("계좌 잔액이 부족합니다.", HttpStatus.INTERNAL_SERVER_ERROR);		
+			throw new CustomRestfulException("계좌의 잔액이 부족합니다.", HttpStatus.INTERNAL_SERVER_ERROR);		
 		}
 	}
 	
 	// 계좌 소유자 확인 기능
 	public void checkOwner(Integer principalId) {
 		if(this.userId != principalId) {
-			throw new CustomRestfullException("계좌 소유자가 아닙니다.", HttpStatus.INTERNAL_SERVER_ERROR);		
+			throw new CustomRestfulException("계좌의 사용자가 아닙니다.", HttpStatus.INTERNAL_SERVER_ERROR);		
 		}
 	}
 	
@@ -72,5 +70,4 @@ public class Account {
 		String result = balance.toString().replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",");
 		return result + "원";
 	}
-	
 }

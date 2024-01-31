@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tenco.bank.dto.SignInFormDto;
 import com.tenco.bank.dto.SignUpFormDto;
-import com.tenco.bank.handler.exception.CustomRestfullException;
+import com.tenco.bank.handler.exception.CustomRestfulException;
 import com.tenco.bank.repository.entity.User;
 import com.tenco.bank.service.UserService;
 import com.tenco.bank.utils.Define;
@@ -47,15 +47,15 @@ public class UserController {
 //		1. 인증검사 x
 //		2. 유효성 검사
 		if (dto.getUsername() == null || dto.getUsername().isEmpty()) {
-			throw new CustomRestfullException(Define.ENTER_YOUR_USERNAME, HttpStatus.BAD_REQUEST);
+			throw new CustomRestfulException(Define.ENTER_YOUR_USERNAME, HttpStatus.BAD_REQUEST);
 		}
 
 		if (dto.getPassword() == null || dto.getPassword().isEmpty()) {
-			throw new CustomRestfullException(Define.ENTER_YOUR_PASSWORD, HttpStatus.BAD_REQUEST);
+			throw new CustomRestfulException(Define.ENTER_YOUR_PASSWORD, HttpStatus.BAD_REQUEST);
 		}
 
 		if (dto.getFullname() == null || dto.getFullname().isEmpty()) {
-			throw new CustomRestfullException(Define.ENTER_YOUR_FULLNAME, HttpStatus.BAD_REQUEST);
+			throw new CustomRestfulException(Define.ENTER_YOUR_FULLNAME, HttpStatus.BAD_REQUEST);
 		}
 
 		userService.createUser(dto);
@@ -81,11 +81,11 @@ public class UserController {
 	public String signInProc(SignInFormDto dto) {
 //		1. 유효성 검사
 		if (dto.getUsername() == null || dto.getUsername().isEmpty()) {
-			throw new CustomRestfullException(Define.ENTER_YOUR_USERNAME, HttpStatus.BAD_REQUEST);
+			throw new CustomRestfulException(Define.ENTER_YOUR_USERNAME, HttpStatus.BAD_REQUEST);
 		}
 
 		if (dto.getPassword() == null || dto.getPassword().isEmpty()) {
-			throw new CustomRestfullException(Define.ENTER_YOUR_PASSWORD, HttpStatus.BAD_REQUEST);
+			throw new CustomRestfulException(Define.ENTER_YOUR_PASSWORD, HttpStatus.BAD_REQUEST);
 		}
 
 //		서비스 호출 예정
