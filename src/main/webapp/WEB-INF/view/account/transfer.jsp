@@ -24,7 +24,7 @@
 					placeholder="이체하실 계좌번호를 입력하세요" id="dAccountNumber" value="5555">
 			</div>
 			<div class="form-group">
-				<label for="password">출금 비밀번호:</label> <input type="text"
+				<label for="password">출금 비밀번호:</label> <input type="password"
 					name="password" class="form-control" placeholder="출금하실 계좌번호를 입력하세요"
 					id="password" value="1234">
 			</div>

@@ -13,6 +13,7 @@ import com.tenco.bank.dto.TransferFormDto;
 import com.tenco.bank.dto.WithdrawFormDto;
 import com.tenco.bank.handler.exception.CustomRestfulException;
 import com.tenco.bank.repository.entity.Account;
+import com.tenco.bank.repository.entity.CustomHistoryEntity;
 import com.tenco.bank.repository.entity.History;
 import com.tenco.bank.repository.interfaces.AccountRepository;
 import com.tenco.bank.repository.interfaces.HistoryRepository;
@@ -63,6 +64,11 @@ public class AccountService {
 	public List<Account> readAccountListByUserId(Integer principalId) {
 		// select --> 0 이거나 aa, a, ... 예외처리 X
 		return accountRepository.findAllByUserId(principalId);
+	}
+	
+	// 단일 계좌 조회 - byId
+	public Account readByAccountId(Integer id) {
+		return accountRepository.findByAccountId(id);
 	}
 
 	// 출금 기능 만들기
@@ -121,7 +127,7 @@ public class AccountService {
 	public void updateAccountDeposit(DepositFormDto dto, Integer principalId) {
 		// 1. 계좌 존재 여부 확인
 		Account accountEntity = accountRepository.findByNumber(dto.getDAccountNumber());
-		
+
 		if (accountEntity == null) {
 			throw new CustomRestfulException(Define.NOT_EXIST_ACCOUNT, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -140,7 +146,7 @@ public class AccountService {
 		history.setDBalance(accountEntity.getBalance());
 		history.setWAccountId(null);
 		history.setDAccountId(accountEntity.getId());
-		
+
 		int rowResultCount = historyRepository.insert(history);
 		if (rowResultCount != 1) {
 			throw new CustomRestfulException("정상 처리 되지 않았습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -163,17 +169,15 @@ public class AccountService {
 	public void updateAccountTransfer(TransferFormDto dto, Integer principalId) {
 		Account withdrawAccountEntity = accountRepository.findByNumber(dto.getWAccountNumber());
 		Account depositAccountEntity = accountRepository.findByNumber(dto.getDAccountNumber());
-		
-//		1.
+
 		if (withdrawAccountEntity == null) {
 			throw new CustomRestfulException(Define.NOT_EXIST_ACCOUNT, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-//		2.
 		if (depositAccountEntity == null) {
 			throw new CustomRestfulException("상대방의 계좌 번호가 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 //		3.
-		withdrawAccountEntity.checkOwner(principalId);		
+		withdrawAccountEntity.checkOwner(principalId);
 //		4.
 		withdrawAccountEntity.checkPassword(dto.getPassword());
 //		5.
@@ -183,18 +187,34 @@ public class AccountService {
 //		7.
 		depositAccountEntity.deposit(dto.getAmount());
 //		8.
-		accountRepository.updateById(withdrawAccountEntity);
+		int resultRowCountWithdrow = accountRepository.updateById(withdrawAccountEntity);
 //		9.
-		accountRepository.updateById(depositAccountEntity);
+		int resultRowCountDeposit = accountRepository.updateById(depositAccountEntity);
+		if(resultRowCountWithdrow != 1 && resultRowCountDeposit != 1) {
+			throw new CustomRestfulException("정상 처리 되지 않았습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 //		10.
-		History history = History.builder()
-				.amount(dto.getAmount())					// 이체 금액
-				.wAccountId(withdrawAccountEntity.getId())	// 출금 계좌
-				.dAccountId(depositAccountEntity.getId())	// 입금 계좌
-				.wBalance(withdrawAccountEntity.getBalance())	// 출금 계좌 남은 잔액
-				.dBalance(depositAccountEntity.getBalance())	// 입금 계좌 남은 잔액
+		History history = History.builder().amount(dto.getAmount()) // 이체 금액
+				.wAccountId(withdrawAccountEntity.getId()) // 출금 계좌
+				.dAccountId(depositAccountEntity.getId()) // 입금 계좌
+				.wBalance(withdrawAccountEntity.getBalance()) // 출금 계좌 남은 잔액
+				.dBalance(depositAccountEntity.getBalance()) // 입금 계좌 남은 잔액
 				.build();
-		historyRepository.insert(history);
+		int resultRowCountHistory = historyRepository.insert(history);
+		if(resultRowCountHistory != 1) {
+			throw new CustomRestfulException("정상 처리 되지 않았습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * 단일 계좌 거래 내역 검색 (전체 , 입금 , 출금)
+	 * @param type = [all , deposit , withdraw]
+	 * @param id (account_id)
+	 * @return 동적 쿼리 - List
+	 */
+	public List<CustomHistoryEntity> readHistoryListByAccount(String type , Integer id) {
+		return historyRepository.findByIdHistoryType(type, id);
 	}
 
 }
