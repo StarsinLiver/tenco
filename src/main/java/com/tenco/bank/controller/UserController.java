@@ -45,6 +45,7 @@ public class UserController {
 	public String signProc(SignUpFormDto dto) {
 
 //		1. 인증검사 x
+		
 //		2. 유효성 검사
 		if (dto.getUsername() == null || dto.getUsername().isEmpty()) {
 			throw new CustomRestfulException(Define.ENTER_YOUR_USERNAME, HttpStatus.BAD_REQUEST);

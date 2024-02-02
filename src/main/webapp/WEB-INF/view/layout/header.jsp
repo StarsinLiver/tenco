@@ -22,7 +22,6 @@
 </style>
 </head>
 <body>
-
 	<div class="jumbotron text-center banner--img" style="margin-bottom: 0">
 		<h1>my bank</h1>
 		<p>최첨단 은행 관리 시스템</p>
@@ -57,7 +56,7 @@
 
 <div class="container" style="margin-top:30px">
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-4 jumbotron">
       <h2>About Me</h2>
       <h5>Photo of me:</h5>
       <h3>${principal.username} 계정</h3>
@@ -65,20 +64,20 @@
       <p>중단기 심화 - 은행 관리 시스템 예제</p>
       <h3>Some Links</h3>
       <p>Lorem ipsum dolor sit ame.</p>
-      <ul class="nav nav-pills flex-column">
-        <li class="nav-item">
+      <ul class="nav nav-pills flex-column list-grou">
+        <li class="nav-item list-group-item list-group-item-action">
           <a class="nav-link" href="/account/save">계좌 생성</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item list-group-item list-group-item-action">
           <a class="nav-link" href="/account/list">계좌 목록</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item list-group-item list-group-item-action">
           <a class="nav-link" href="/account/withdraw">출금</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item list-group-item list-group-item-action">
           <a class="nav-link" href="/account/deposit">입금</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item list-group-item list-group-item-action" >
           <a class="nav-link" href="/account/transfer">이체</a>
         </li>
       </ul>
