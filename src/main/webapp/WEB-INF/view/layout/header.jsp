@@ -26,61 +26,65 @@
 		<h1>my bank</h1>
 		<p>최첨단 은행 관리 시스템</p>
 	</div>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-  <a class="navbar-brand" href="#">MENU</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="collapsibleNavbar">
-    <ul class="navbar-nav">
-      <c:choose>
-          <c:when test="${principal != null}">
-           <li class="nav-item">
-            <a class="nav-link" href="/user/logout">로그아웃</a>
-         </li>
-          </c:when>
-          <c:otherwise>
-          <li class="nav-item">
-            <a class="nav-link" href="/user/sign-in">로그인</a>
-        </li>
-        <li class="nav-item">
-                <a class="nav-link" href="/user/sign-up">회원가입</a>
-        </li>
-          </c:otherwise>
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+		<a class="navbar-brand" href="#">MENU</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav">
+				<c:choose>
+					<c:when test="${principal != null}">
+						<li class="nav-item"><a class="nav-link" href="/user/logout">로그아웃</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li class="nav-item"><a class="nav-link" href="/user/sign-in">로그인</a>
+						</li>
+						<li class="nav-item"><a class="nav-link" href="/user/sign-up">회원가입</a>
+						</li>
+					</c:otherwise>
 
-      </c:choose>
+				</c:choose>
 
-    </ul>
-  </div>
-</nav>
+			</ul>
+		</div>
+	</nav>
 
-<div class="container" style="margin-top:30px">
-  <div class="row">
-    <div class="col-sm-4 jumbotron">
-      <h2>About Me</h2>
-      <h5>Photo of me:</h5>
-      <h3>${principal.username} 계정</h3>
-      <div class="m--profile"></div>
-      <p>중단기 심화 - 은행 관리 시스템 예제</p>
-      <h3>Some Links</h3>
-      <p>Lorem ipsum dolor sit ame.</p>
-      <ul class="nav nav-pills flex-column list-grou">
-        <li class="nav-item list-group-item list-group-item-action">
-          <a class="nav-link" href="/account/save">계좌 생성</a>
-        </li>
-        <li class="nav-item list-group-item list-group-item-action">
-          <a class="nav-link" href="/account/list">계좌 목록</a>
-        </li>
-        <li class="nav-item list-group-item list-group-item-action">
-          <a class="nav-link" href="/account/withdraw">출금</a>
-        </li>
-        <li class="nav-item list-group-item list-group-item-action">
-          <a class="nav-link" href="/account/deposit">입금</a>
-        </li>
-        <li class="nav-item list-group-item list-group-item-action" >
-          <a class="nav-link" href="/account/transfer">이체</a>
-        </li>
-      </ul>
-      <hr class="d-sm-none">
-    </div>
-    <!--  end of header -->
+	<div class="container" style="margin-top: 30px">
+		<div class="row">
+			<div class="col-sm-4 jumbotron">
+				<h2>About Me</h2>
+				<h5>Photo of me:</h5>
+				<h3>${principal.username}계정</h3>
+				<!-- 로그인 여부에 코드 추가하기 -->
+				<c:choose>
+					<c:when test="${principal != null }">
+						<img class="m--profile" src="${principal.setupUserImage()}" alt="" />
+					</c:when>
+					<c:otherwise>
+						<div class="m--profile"></div>
+					</c:otherwise>
+				</c:choose>
+				<p>중단기 심화 - 은행 관리 시스템 예제</p>
+
+
+				<h3>Some Links</h3>
+				<p>Lorem ipsum dolor sit ame.</p>
+				<ul class="nav nav-pills flex-column list-grou">
+					<li class="nav-item list-group-item list-group-item-action"><a
+						class="nav-link" href="/account/save">계좌 생성</a></li>
+					<li class="nav-item list-group-item list-group-item-action"><a
+						class="nav-link" href="/account/list">계좌 목록</a></li>
+					<li class="nav-item list-group-item list-group-item-action"><a
+						class="nav-link" href="/account/withdraw">출금</a></li>
+					<li class="nav-item list-group-item list-group-item-action"><a
+						class="nav-link" href="/account/deposit">입금</a></li>
+					<li class="nav-item list-group-item list-group-item-action">
+						<a class="nav-link" href="/account/transfer">이체</a>
+					</li>
+				</ul>
+				<hr class="d-sm-none">
+			</div>
+			<!--  end of header -->

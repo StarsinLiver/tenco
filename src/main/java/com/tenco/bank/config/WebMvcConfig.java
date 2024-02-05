@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.tenco.bank.handler.AuthInterceptor;
@@ -25,13 +26,19 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addInterceptor(authInterceptor).addPathPatterns("/account/**").addPathPatterns("/auth/**");
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}
-	
-	@Bean	// IoC - 싱글톤 처리
+
+	@Bean // IoC - 싱글톤 처리 -- 스프링 컨테이너에 등록
 	public PasswordEncoder passwrodEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
-	
-	
-	
+
+	// 리소스 등록 처리
+	// 서버 컴퓨터에 위치한 리소스를 활용하는 방법 - 즉 프로젝트 외부 폴더 접근
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//		가짜 경로 <-- 
+		registry.addResourceHandler("/images/upload/**")
+		.addResourceLocations("file:///C:\\work_spring\\upload/"); // 요청에 맵핑될 정적 자원들의 위치 지정 메소드
+	}
+
 }
