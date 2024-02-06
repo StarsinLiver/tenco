@@ -202,7 +202,7 @@ public class UserController {
 				reqMsg2, KakaoProfile.class);
 
 		KakaoProfile kakaoProfile = response2.getBody();
-		String username = kakaoProfile.properties.getNickname();
+		String username = kakaoProfile.getProperties().getNickname();
 
 //		로그인 처리
 //		단 최초 요청 사용자라 --> 회원 후 로그인 처리
@@ -217,7 +217,7 @@ public class UserController {
 		// null <--
 		if (oldUser == null) {
 			userService.createUser(dto);
-			oldUser = new User(); // ???? 안넣으면 에러남
+			oldUser = new User();
 			oldUser.setUsername(dto.getUsername());
 			oldUser.setFullname(dto.getFullname());
 		}

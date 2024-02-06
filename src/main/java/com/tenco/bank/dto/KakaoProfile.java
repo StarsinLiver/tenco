@@ -4,10 +4,10 @@ import lombok.Data;
 
 @Data
 public class KakaoProfile {
-    public Long id;
-    public String connectedAt;
-    public Properties properties;
-    public KakaoAccount kakaoAccount;
+	private Long id;
+	private String connectedAt;
+    private Properties properties;
+    private KakaoAccount kakaoAccount;
     
     
 }

@@ -1,0 +1,59 @@
+[33mcommit 2200fab51389d6a6b5fc7eab75a0365a0548a95f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mkakao[m[33m, [m[1;32mfile[m[33m)[m
+Author: StarsinLiver <san2636@naver.com>
+Date:   Tue Feb 6 12:22:29 2024 +0900
+
+    kakao
+
+[33mcommit 869b20da140bd1e258a6b326bf242c9ec6ada431[m[33m ([m[1;31morigin/file[m[33m)[m
+Author: StarsinLiver <san2636@naver.com>
+Date:   Mon Feb 5 18:13:53 2024 +0900
+
+    file
+
+[33mcommit 38194f6a3b1d1bce2602d4dc4b9f9decd25dfd21[m[33m ([m[1;31morigin/security[m[33m)[m
+Author: StarsinLiver <san2636@naver.com>
+Date:   Fri Feb 2 11:02:44 2024 +0900
+
+    security-class1
+
+[33mcommit 8a3a68f4536d2c0bd0594c38574d54d36ce0744d[m[33m ([m[1;31morigin/transfer[m[33m, [m[1;32mtransfer[m[33m, [m[1;32mmain[m[33m)[m
+Author: StarsinLiver <san2636@naver.com>
+Date:   Thu Feb 1 15:03:57 2024 +0900
+
+    transfer
+
+[33mcommit cafdcf5c118d63840570017a24e9c5db5fb42e74[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: StarsinLiver <san2636@naver.com>
+Date:   Wed Jan 31 13:51:02 2024 +0900
+
+    이체1번
+
+[33mcommit d114bf5f0c3e19666c8bcf30d90b460fb1ef5fdf[m
+Author: StarsinLiver <san2636@naver.com>
+Date:   Wed Jan 31 12:23:20 2024 +0900
+
+    입금 기능
+
+[33mcommit 4cb7cf3c8b4120c0886293fde560276a533575a3[m
+Author: StarsinLiver <san2636@naver.com>
+Date:   Wed Jan 31 11:19:08 2024 +0900
+
+    출금 기능
+
+[33mcommit 71a145bf6ba0f36373c450f2d579cf073e3387d5[m[33m ([m[1;31morigin/test[m[33m, [m[1;31morigin/class1[m[33m, [m[1;32mlogin[m[33m, [m[1;32maccount[m[33m)[m
+Author: StarsinLiver <san2636@naver.com>
+Date:   Mon Jan 29 17:23:47 2024 +0900
+
+    2024-01-29
+
+[33mcommit b2d08d2abf06273d5fe56d22851a7bb3d93595d5[m
+Author: StarsinLiver <san2636@naver.com>
+Date:   Mon Jan 29 16:57:44 2024 +0900
+
+    class1
+
+[33mcommit c0a92a1ea5666d50a13ac538dac6699c237f8781[m
+Author: StarsinLiver <san2636@naver.com>
+Date:   Mon Jan 29 16:56:41 2024 +0900
+
+    dsa

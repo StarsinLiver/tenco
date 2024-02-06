@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class Properties {
 
-    public String nickname;
+	private String nickname;
 
 }
