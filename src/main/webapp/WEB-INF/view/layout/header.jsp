@@ -5,81 +5,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>My bank</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Bank</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<!-- VENDOR CSS -->
 <link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-<script
-	src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<!-- 외부 스타일 시트 가져오기 -->
-<link rel="stylesheet" href="/css/styles.css">
-
-
-<style>
-</style>
+	href="/assets/vendor/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="/assets/vendor/font-awesome/css/font-awesome.min.css" />
+<link rel="stylesheet" href="/assets/vendor/linearicons/style.css" />
+<link rel="stylesheet"
+	href="/assets/vendor/chartist/css/chartist-custom.css" />
+<!-- MAIN CSS -->
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+<link rel="stylesheet" href="/assets/css/demo.css" />
+<!-- GOOGLE FONTS -->
+<link
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700"
+	rel="stylesheet" />
+<!-- ICONS -->
+<link rel="apple-touch-icon" sizes="76x76"
+	href="/assets/img/apple-icon.png" />
+<link rel="icon" type="image/png" sizes="96x96"
+	href="/assets/img/favicon.png" />
 </head>
+
 <body>
-	<div class="jumbotron text-center banner--img" style="margin-bottom: 0">
-		<h1>my bank</h1>
-		<p>최첨단 은행 관리 시스템</p>
-	</div>
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-		<a class="navbar-brand" href="#">MENU</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#collapsibleNavbar">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="collapsibleNavbar">
-			<ul class="navbar-nav">
-				<c:choose>
-					<c:when test="${principal != null}">
-						<li class="nav-item"><a class="nav-link" href="/user/logout">로그아웃</a>
-						</li>
-						<li class="nav-item "><a class="nav-link"
-							href="/account/save">계좌 생성</a></li>
-						<li class="nav-item "><a class="nav-link"
-							href="/account/list">계좌 목록</a></li>
-						<li class="nav-item "><a class="nav-link"
-							href="/account/withdraw">출금</a></li>
-						<li class="nav-item "><a class="nav-link"
-							href="/account/deposit">입금</a></li>
-						<li class="nav-item "><a class="nav-link"
-							href="/account/transfer">이체</a></li>
-					</c:when>
-					<c:otherwise>
-						<li class="nav-item"><a class="nav-link" href="/user/sign-in">로그인</a>
-						</li>
-						<li class="nav-item"><a class="nav-link" href="/user/sign-up">회원가입</a>
-						</li>
-
-					</c:otherwise>
-				</c:choose>
-			</ul>
-		</div>
-	</nav>
-
-	<div class="container" style="margin-top: 30px">
-		<div class="row">
-			<div class="col-sm-4 jumbotron">
-				<h2>About Me</h2>
-				<h5>Photo of me:</h5>
-				<h3>${principal.username}계정</h3>
-				<!-- 로그인 여부에 코드 추가하기 -->
-				<c:choose>
-					<c:when test="${principal != null }">
-						<img class="m--profile" src="${principal.setupUserImage()}" alt="" />
-					</c:when>
-					<c:otherwise>
-						<div class="m--profile"></div>
-					</c:otherwise>
-				</c:choose>
-				<p>중단기 심화 - 은행 관리 시스템 예제</p>
-
-				<hr class="d-sm-none">
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="brand">
+				<a href="/"> My Bank </a>
 			</div>
-			<!--  end of header -->
+			<div class="container-fluid">
+				<div class="navbar-btn navbar-btn-right">
+					<a class="btn btn-success update-pro"
+						href="https://github.com/StarsinLiver/tenco.git"
+						title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i>
+						<span>해당 깃 주소</span></a>
+				</div>
+				<div id="navbar-menu">
+					<ul class="nav navbar-nav navbar-right">
+						<c:choose>
+							<c:when test="${principal != null}">
+								<li class="dropdown"><a href="#" class="dropdown-toggle"
+									data-toggle="dropdown"><i class="lnr lnr-question-circle"></i>
+										<span>Help</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+									<ul class="dropdown-menu">
+
+										<li><a href="/account/save" class="active"><i
+												class="lnr lnr-home"></i> <span>계좌 생성</span></a></li>
+										<li><a href="/account/list" class=""><i
+												class="lnr lnr-code"></i> <span>계좌 목록</span></a></li>
+										<li><a href="/account/withdraw" class=""><i
+												class="lnr lnr-chart-bars"></i> <span>출금</span></a></li>
+										<li><a href="/account/deposit" class=""><i
+												class="lnr lnr-cog"></i> <span>입금</span></a></li>
+										<li><a href="/account/transfer" class=""><i
+												class="lnr lnr-cog"></i> <span>이체</span></a></li>
+									</ul></li>
+							</c:when>
+						</c:choose>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown"><span>회원 정보</span> <i
+								class="icon-submenu lnr lnr-chevron-down"></i></a>
+							<ul class="dropdown-menu">
+								<c:choose>
+									<c:when test="${principal != null}">
+										<li><a href="/user/logout" class=""><i
+												class="lnr lnr-alarm"></i> <span>로그아웃</span></a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a href="/user/sign-in" class=""><i
+												class="lnr lnr-dice"></i> <span>로그인</span></a></li>
+										<li><a href="/user/sign-up" class=""><i
+												class="lnr lnr-text-format"></i> <span>회원가입</span></a></li>
+									</c:otherwise>
+								</c:choose>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+		<div id="sidebar-nav" class="sidebar">
+			<div class="sidebar-scroll">
+				<nav>
+					<div class="text-center">
+						<h2 style="color : white">환영합니다.</h2>
+						<!-- 로그인 여부에 코드 추가하기 -->
+						<c:choose>
+							<c:when test="${principal != null }">
+								<h5 class="mt-5" style="color : white">이름 : ${principal.username}계정</h3>
+								<img style="width : 200px" src="${principal.setupUserImage()}"
+									alt="" />
+							</c:when>
+							<c:otherwise>
+								<div class="m--profile"></div>
+							</c:otherwise>
+						</c:choose>
+						<hr class="d-sm-none">
+					</div>
+					<ul class="nav">
+						<c:choose>
+							<c:when test="${principal != null}">
+								<li><a href="/user/logout" class=""><i
+										class="lnr lnr-alarm"></i> <span>로그아웃</span></a></li>
+								<li><a href="/account/save" class="active"><i
+										class="lnr lnr-home"></i> <span>계좌 생성</span></a></li>
+								<li><a href="/account/list" class=""><i
+										class="lnr lnr-code"></i> <span>계좌 목록</span></a></li>
+								<li><a href="/account/withdraw" class=""><i
+										class="lnr lnr-chart-bars"></i> <span>출금</span></a></li>
+								<li><a href="/account/deposit" class=""><i
+										class="lnr lnr-cog"></i> <span>입금</span></a></li>
+								<li><a href="/account/transfer" class=""><i
+										class="lnr lnr-cog"></i> <span>이체</span></a></li>
+							</c:when>
+							<c:otherwise>
+								<li><a href="/user/sign-in" class=""><i
+										class="lnr lnr-dice"></i> <span>로그인</span></a></li>
+								<li><a href="/user/sign-up" class=""><i
+										class="lnr lnr-text-format"></i> <span>회원가입</span></a></li>
+							</c:otherwise>
+						</c:choose>
+
+					</ul>
+				</nav>
+			</div>
+		</div>
+		<!-- END LEFT SIDEBAR -->

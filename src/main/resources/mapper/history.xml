@@ -51,7 +51,7 @@
 		<if test="type == 'withdraw'">
 			select h.id, h.amount, h.w_balance as balance,
 			h.created_at,
-			ifnull(da.number, 'AMT') as recevier,
+			ifnull(da.number, 'AMT') as receiver,
 			wa.number as sender
 			from history_tb as h
 			left join account_tb as wa

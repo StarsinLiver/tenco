@@ -30,4 +30,10 @@ public class CustomHistoryEntity {
 		String formatNumber = df.format(balance);
 		return formatNumber + "원";
 	}
+	
+	public String formatAmount() {
+		DecimalFormat df = new DecimalFormat("###,###");
+		String formatNumber = df.format(amount);
+		return formatNumber + "원";
+	}
 }
