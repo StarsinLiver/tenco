@@ -13,9 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-// 1. HandlerInterceptor 구현하기
-//	AuthInterceptor
-
 @Component // Ioc
 public class AuthInterceptor implements HandlerInterceptor {
 

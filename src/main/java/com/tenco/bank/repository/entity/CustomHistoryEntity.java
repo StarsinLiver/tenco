@@ -20,9 +20,6 @@ public class CustomHistoryEntity {
 	private String receiver;
 	private Timestamp createdAt;
 	
-//	도전 과제
-//	시간 포맷 메서드 만들어 주세요
-	
 	public String formatCreatedAt() {
 		return TimeUtils.timestampToString(createdAt);
 	}

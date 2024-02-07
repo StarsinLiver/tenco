@@ -27,19 +27,19 @@ import com.tenco.bank.utils.Define;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.server.PathParam;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/account")
+@Slf4j
 public class AccountController {
 
-	@Autowired // 가독성
-	private HttpSession session; // final 키워드를 사용하면 메모리 성능효율이 좋음
+	@Autowired
+	private HttpSession session;
 
 	@Autowired
 	private AccountService accountService;
 
-	// 페이지 요청기능
-	// http://localhost:80/account/save
 	/**
 	 * 계좌 생성 페이지 요청
 	 * 
@@ -49,7 +49,7 @@ public class AccountController {
 	public String savePage() {
 		// 인증검사
 		User principal = (User) session.getAttribute(Define.PRINCIPAL); // 다운 캐스팅
-		
+
 		return "account/saveForm";
 	}
 
@@ -104,7 +104,11 @@ public class AccountController {
 		return "account/list";
 	}
 
-	// 출금페이지 요청
+	/**
+	 * 출금페이지 요청
+	 * 
+	 * @return
+	 */
 	@GetMapping("/withdraw")
 	public String withdrawPage() {
 		// 1. 인증 검사
@@ -113,7 +117,12 @@ public class AccountController {
 		return "account/withdraw";
 	}
 
-	// 출금 요청 로직 만들기
+	/**
+	 * 출금 요청 로직 만들기
+	 * 
+	 * @param dto
+	 * @return
+	 */
 	@PostMapping("/withdraw")
 	public String withdrawProc(WithdrawFormDto dto) {
 		// 1. 인증 검사
@@ -140,7 +149,11 @@ public class AccountController {
 		return "redirect:/account/list";
 	}
 
-	// 입금 페이지 요청
+	/**
+	 * 입금 페이지 요청
+	 * 
+	 * @return
+	 */
 	@GetMapping("/deposit")
 	public String depositPage() {
 		// 1. 인증 검사
@@ -149,7 +162,12 @@ public class AccountController {
 		return "account/deposit";
 	}
 
-	// 입금 요청 로직
+	/**
+	 * 입금 요청 로직
+	 * 
+	 * @param dto
+	 * @return
+	 */
 	@PostMapping("/deposit")
 	public String depositProc(DepositFormDto dto) {
 		// 1. 인증 검사
@@ -172,7 +190,11 @@ public class AccountController {
 		return "redirect:/account/list";
 	}
 
-	// 이체 페이지 요청
+	/**
+	 * 이체 페이지 요청
+	 * 
+	 * @return
+	 */
 	@GetMapping("/transfer")
 	public String transferPage() {
 		// 1. 인증 검사
@@ -181,7 +203,12 @@ public class AccountController {
 		return "account/transfer";
 	}
 
-	// 이체 요청 로직
+	/**
+	 * 이체 요청 로직
+	 * 
+	 * @param dto
+	 * @return
+	 */
 	@PostMapping("/transfer")
 	public String transferProc(TransferFormDto dto) {
 		// 1. 인증 검사
@@ -210,8 +237,14 @@ public class AccountController {
 		return "redirect:/account/list";
 	}
 
-//	계좌 상세 보기 페이지 -- 전체(입출금), 입금, 출금
-//	http://localhost:80/account/detail/1
+	/**
+	 * 계좌 상세 보기 페이지 -- 전체(입출금), 입금, 출금
+	 * 
+	 * @param id
+	 * @param type
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/detail/{id}")
 	public String detail(@PathVariable Integer id,
 			@RequestParam(name = "type", defaultValue = "all", required = false) String type, Model model) {
@@ -220,13 +253,12 @@ public class AccountController {
 
 		Account account = accountService.readByAccountId(id);
 
-//		서비스 호출
 		List<CustomHistoryEntity> historyList = accountService.readHistoryListByAccount(type, id);
-		System.out.println("list : " + historyList.toString());
+		log.info("list : " + historyList.toString());
 
 		model.addAttribute("account", account);
 		model.addAttribute("historyList", historyList);
-//		응답 결과 --> jsp 내려주기
+
 		return "account/detail";
 	}
 }

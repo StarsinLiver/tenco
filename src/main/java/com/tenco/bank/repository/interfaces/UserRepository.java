@@ -11,9 +11,9 @@ import com.tenco.bank.repository.entity.User;
 @Mapper
 public interface UserRepository {
 	
-	public int insert(User user);	 // insert 리턴타입 : int 숫자
-	public int updateById(User user);	// update 리턴타입 : int 숫자
-	public int deleteById(Integer id);	// update 리턴타입 : int 숫자
+	public int insert(User user);
+	public int updateById(User user);
+	public int deleteById(Integer id);
 	public User findById(Integer id);
 	public List<User> findAll();	
 	

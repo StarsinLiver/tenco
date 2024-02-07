@@ -50,7 +50,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-//	was 메모리에 접근하게 해줌
 	@Autowired
 	private HttpSession httpSession;
 
@@ -65,12 +64,16 @@ public class UserController {
 		return "user/signUp";
 	}
 
-//	회원 가입 요청 처리
-//	주소 설계 http://localhost:80/user/sign-up
+	/**
+	 * 회원 가입 요청 처리
+	 * 
+	 * @param dto
+	 * @return
+	 */
 	@PostMapping("/sign-up")
 	public String signProc(SignUpFormDto dto) {
-		System.out.println("dto : " + dto.toString());
-		System.out.println(dto.getCustomFile().getOriginalFilename());
+		log.info("dto : " + dto.toString());
+		log.info(dto.getCustomFile().getOriginalFilename());
 
 //		1. 인증검사 x
 
@@ -110,7 +113,7 @@ public class UserController {
 			UUID uuid = UUID.randomUUID();
 			String fileName = uuid + "_" + file.getOriginalFilename();
 
-			System.out.println("fileName : " + fileName);
+			log.info("fileName : " + fileName);
 
 //			업로드 경로 
 			String uploadPath = Define.UPLOAD_FILE_DERECTORY + File.separator + fileName;
@@ -169,7 +172,11 @@ public class UserController {
 		return "redirect:/account/list";
 	}
 
-//	로그아웃 기능
+	/**
+	 * 로그아웃 기능
+	 * 
+	 * @return
+	 */
 	@GetMapping("/logout")
 	public String logout() {
 		System.out.print("dsadsa");
@@ -177,7 +184,12 @@ public class UserController {
 		return "redirect:/user/sign-in";
 	}
 
-//	http://localhost:80/user/kakao-callback?code="xxxxx"
+	/**
+	 * 카카오 간편 로그인
+	 * 
+	 * @param code
+	 * @return
+	 */
 	@GetMapping("/kakao-callback")
 	public String kakaoCallBack(@RequestParam String code) {
 //		Post 방식 , HEADER 구성 , BODY 구성
@@ -216,9 +228,8 @@ public class UserController {
 		SignUpFormDto dto;
 
 //		최초 사용자 판단 여부 -- 사용자 username 존재 여부 확인
-//		우리 사이트 --> 카카오
-		dto = SignUpFormDto.builder().username("OAuth_" + kakaoProfile.getProperties().getNickname() + "kakao").fullname("kakao")
-				.password("asd1234").build();
+		dto = SignUpFormDto.builder().username("OAuth_" + kakaoProfile.getProperties().getNickname() + "kakao")
+				.fullname("kakao").password("asd1234").build();
 
 		User oldUser = userService.readUserByUsername(dto.getUsername());
 		// null <--
@@ -236,7 +247,13 @@ public class UserController {
 		return "redirect:/account/list";
 	}
 
-//	네이버 로그인
+	/**
+	 * 네이버 로그인
+	 * 
+	 * @param code
+	 * @param state
+	 * @return
+	 */
 	@GetMapping("/naver-callback")
 	public String naverCallback(@RequestParam String code, @RequestParam String state) {
 
@@ -248,29 +265,26 @@ public class UserController {
 				.queryParam("client_secret", "t_PwzqetT7").queryParam("code", code).queryParam("state", state).encode()
 				.build().toUri();
 //		토큰 가져오기
-		ResponseEntity<NaverTokenDto> response = restTemplate.getForEntity(uri, NaverTokenDto.class);	
+		ResponseEntity<NaverTokenDto> response = restTemplate.getForEntity(uri, NaverTokenDto.class);
 
 //		토큰 정보 빼내기
 //		헤더 추가
 		HttpHeaders headers = new HttpHeaders();
 		String accessToken = response.getBody().getAccessToken();
 		headers.add("Authorization", "Bearer " + accessToken);
-		
+
 		HttpEntity<Object> entity = new HttpEntity<>(headers);
 
-		ResponseEntity<NaverProfile> response2 = restTemplate.exchange("https://openapi.naver.com/v1/nid/me", HttpMethod.GET,
-				entity, NaverProfile.class);
-		
+		ResponseEntity<NaverProfile> response2 = restTemplate.exchange("https://openapi.naver.com/v1/nid/me",
+				HttpMethod.GET, entity, NaverProfile.class);
+
 		NaverProfile naverProfile = response2.getBody();
-		
+
 //		회원 가입 또는 로그인
-		SignUpFormDto dto = SignUpFormDto.builder()
-				.username("OAuth_" +naverProfile.getResponse().name + "_naver")
-				.fullname("네이버")
-				.password("asd1234")
-				.build();
+		SignUpFormDto dto = SignUpFormDto.builder().username("OAuth_" + naverProfile.getResponse().name + "_naver")
+				.fullname("네이버").password("asd1234").build();
 		User oldUser = userService.readUserByUsername(dto.getUsername());
-		
+
 		// null <--
 		if (oldUser == null) {
 			userService.createUser(dto);

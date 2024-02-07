@@ -23,31 +23,29 @@ public class UserService {
 	private UserRepository userRepository;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	/**
 	 * 회원가입 로직 처리
+	 * 
 	 * @param SignUpFormDto
 	 * @return void
 	 */
 	@Transactional
 	public void createUser(SignUpFormDto dto) {
 //		추가 개념 암호화 처리
-		
-		User user = User.builder()
-				.username(dto.getUsername())
-				.password(passwordEncoder.encode(dto.getPassword()))
-				.fullname(dto.getFullname())
-				.originFileName(dto.getOriginFileName())
-				.uploadFileName(dto.getUploadFileName())
-				.build();
+
+		User user = User.builder().username(dto.getUsername()).password(passwordEncoder.encode(dto.getPassword()))
+				.fullname(dto.getFullname()).originFileName(dto.getOriginFileName())
+				.uploadFileName(dto.getUploadFileName()).build();
 		int result = userRepository.insert(user);
-		if(result != 1) {
+		if (result != 1) {
 			throw new CustomRestfulException(Define.FAIL_TO_CREATE_USER, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	/**
 	 * 로그인 처리
+	 * 
 	 * @param SignInFormDto
 	 * @return User
 	 */
@@ -55,23 +53,27 @@ public class UserService {
 
 //		사용자 username 만 받아서 정보를 추출
 		User userEntity = userRepository.findByUsername(dto.getUsername());
-		
-		if(userEntity == null) {
-			throw new CustomRestfulException("존재하지 않는 계정입니다.",HttpStatus.BAD_REQUEST);
+
+		if (userEntity == null) {
+			throw new CustomRestfulException("존재하지 않는 계정입니다.", HttpStatus.BAD_REQUEST);
 		}
-		
+
 		boolean isPwdMatched = passwordEncoder.matches(dto.getPassword(), userEntity.getPassword());
-		if(isPwdMatched == false) {
+		if (isPwdMatched == false) {
 			throw new CustomRestfulException("비밀번호가 잘못 되었습니다.", HttpStatus.BAD_REQUEST);
 		}
-		
+
 		return userEntity;
 	}
-	
-//	  사용자 이름만 가지고 정보 조회
+
+	/**
+	 * 사용자 이름만 가지고 정보 조회
+	 * 
+	 * @param username
+	 * @return
+	 */
 	public User readUserByUsername(String username) {
 		return userRepository.findByUsername(username);
 	}
-	
 
 } // end of Class
