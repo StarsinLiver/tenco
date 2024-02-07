@@ -1,7 +1,9 @@
 package com.tenco.bank.controller;
 
 import java.io.File;
+
 import java.io.IOException;
+import java.net.URI;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,9 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.tenco.bank.dto.KakaoAccount;
 import com.tenco.bank.dto.KakaoProfile;
+import com.tenco.bank.dto.NaverProfile;
+import com.tenco.bank.dto.NaverTokenDto;
 import com.tenco.bank.dto.OAuthToken;
 import com.tenco.bank.dto.SignInFormDto;
 import com.tenco.bank.dto.SignUpFormDto;
@@ -210,7 +217,7 @@ public class UserController {
 
 //		최초 사용자 판단 여부 -- 사용자 username 존재 여부 확인
 //		우리 사이트 --> 카카오
-		dto = SignUpFormDto.builder().username("OAuth_" + kakaoProfile.getProperties().getNickname()).fullname("kakao")
+		dto = SignUpFormDto.builder().username("OAuth_" + kakaoProfile.getProperties().getNickname() + "kakao").fullname("kakao")
 				.password("asd1234").build();
 
 		User oldUser = userService.readUserByUsername(dto.getUsername());
@@ -226,6 +233,55 @@ public class UserController {
 //		로그인 처리
 		httpSession.setAttribute(Define.PRINCIPAL, oldUser);
 
+		return "redirect:/account/list";
+	}
+
+//	네이버 로그인
+	@GetMapping("/naver-callback")
+	public String naverCallback(@RequestParam String code, @RequestParam String state) {
+
+		RestTemplate restTemplate = new RestTemplate();
+
+//		uri 헤더 없음 , 파라미터만 있음 ㅎㅎ..
+		URI uri = UriComponentsBuilder.fromUriString("https://nid.naver.com").path("/oauth2.0/token")
+				.queryParam("grant_type", "authorization_code").queryParam("client_id", "CHN2CjQQxDAV3oJAjakG")
+				.queryParam("client_secret", "t_PwzqetT7").queryParam("code", code).queryParam("state", state).encode()
+				.build().toUri();
+//		토큰 가져오기
+		ResponseEntity<NaverTokenDto> response = restTemplate.getForEntity(uri, NaverTokenDto.class);	
+
+//		토큰 정보 빼내기
+//		헤더 추가
+		HttpHeaders headers = new HttpHeaders();
+		String accessToken = response.getBody().getAccessToken();
+		headers.add("Authorization", "Bearer " + accessToken);
+		
+		HttpEntity<Object> entity = new HttpEntity<>(headers);
+
+		ResponseEntity<NaverProfile> response2 = restTemplate.exchange("https://openapi.naver.com/v1/nid/me", HttpMethod.GET,
+				entity, NaverProfile.class);
+		
+		NaverProfile naverProfile = response2.getBody();
+		
+//		회원 가입 또는 로그인
+		SignUpFormDto dto = SignUpFormDto.builder()
+				.username("OAuth_" +naverProfile.getResponse().name + "_naver")
+				.fullname("네이버")
+				.password("asd1234")
+				.build();
+		User oldUser = userService.readUserByUsername(dto.getUsername());
+		
+		// null <--
+		if (oldUser == null) {
+			userService.createUser(dto);
+			oldUser = new User();
+			oldUser.setUsername(dto.getUsername());
+			oldUser.setFullname(dto.getFullname());
+		}
+		oldUser.setPassword(null);
+
+//		로그인 처리
+		httpSession.setAttribute(Define.PRINCIPAL, oldUser);
 		return "redirect:/account/list";
 	}
 
