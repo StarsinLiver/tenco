@@ -18,6 +18,8 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- 외부 스타일 시트 가져오기 -->
 <link rel="stylesheet" href="/css/styles.css">
+
+
 <style>
 </style>
 </head>
@@ -38,16 +40,25 @@
 					<c:when test="${principal != null}">
 						<li class="nav-item"><a class="nav-link" href="/user/logout">로그아웃</a>
 						</li>
+						<li class="nav-item "><a class="nav-link"
+							href="/account/save">계좌 생성</a></li>
+						<li class="nav-item "><a class="nav-link"
+							href="/account/list">계좌 목록</a></li>
+						<li class="nav-item "><a class="nav-link"
+							href="/account/withdraw">출금</a></li>
+						<li class="nav-item "><a class="nav-link"
+							href="/account/deposit">입금</a></li>
+						<li class="nav-item "><a class="nav-link"
+							href="/account/transfer">이체</a></li>
 					</c:when>
 					<c:otherwise>
 						<li class="nav-item"><a class="nav-link" href="/user/sign-in">로그인</a>
 						</li>
 						<li class="nav-item"><a class="nav-link" href="/user/sign-up">회원가입</a>
 						</li>
+
 					</c:otherwise>
-
 				</c:choose>
-
 			</ul>
 		</div>
 	</nav>
@@ -69,22 +80,6 @@
 				</c:choose>
 				<p>중단기 심화 - 은행 관리 시스템 예제</p>
 
-
-				<h3>Some Links</h3>
-				<p>Lorem ipsum dolor sit ame.</p>
-				<ul class="nav nav-pills flex-column list-grou">
-					<li class="nav-item list-group-item list-group-item-action"><a
-						class="nav-link" href="/account/save">계좌 생성</a></li>
-					<li class="nav-item list-group-item list-group-item-action"><a
-						class="nav-link" href="/account/list">계좌 목록</a></li>
-					<li class="nav-item list-group-item list-group-item-action"><a
-						class="nav-link" href="/account/withdraw">출금</a></li>
-					<li class="nav-item list-group-item list-group-item-action"><a
-						class="nav-link" href="/account/deposit">입금</a></li>
-					<li class="nav-item list-group-item list-group-item-action">
-						<a class="nav-link" href="/account/transfer">이체</a>
-					</li>
-				</ul>
 				<hr class="d-sm-none">
 			</div>
 			<!--  end of header -->
