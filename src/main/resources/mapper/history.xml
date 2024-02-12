@@ -55,7 +55,8 @@
 			wa.number as sender
 			from history_tb as h
 			left join account_tb as wa
-			on h.w_account_id = wa.id
+			on h.w_account_id =
+			wa.id
 			left join account_tb as da
 			on h.d_account_id = da.id
 			where
@@ -80,19 +81,32 @@
 
 		<if test="type == 'all'">
 			select h.id, h.amount,
-			case when h.w_account_id = #{id} then (h.w_balance)
+			case when h.w_account_id = #{id}
+			then (h.w_balance)
 			when h.d_account_id = #{id} then (h.d_balance)
-			end as balance,
+			end
+			as balance,
 			ifnull(wa.number, 'ATM') as sender,
-			ifnull(da.number, 'ATM') as receiver,
+			ifnull(da.number,
+			'ATM') as receiver,
 			h.created_at
 			from history_tb as h
-			left join account_tb as da
+			left join
+			account_tb as da
 			on h.d_account_id = da.id
 			left join account_tb as wa
 			on h.w_account_id = wa.id
-			where h.d_account_id = #{id} or h.w_account_id = #{id}
+			where h.d_account_id = #{id} or
+			h.w_account_id = #{id}
 		</if>
+	</select>
+
+	<select id="findAllChartMonthly"
+		resultType="com.tenco.bank.dto.CustomChartDto">
+		select count(*) as count , created_at as createdAt from history_tb
+		where created_at between date_format(DATE_ADD(NOW(),INTERVAL -1 month
+		),'%Y-%m-%d') and date_format(now() ,'%Y-%m-%d')
+		group by date_format(created_at,'%Y-%m-%d')
 	</select>
 
 </mapper>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.tenco.bank.dto.CustomChartDto;
 import com.tenco.bank.repository.entity.Account;
 import com.tenco.bank.repository.entity.CustomHistoryEntity;
 
@@ -20,4 +21,5 @@ public interface AccountRepository {
 	public Account findByNumber(String number);
 	public Account findByAccountId(Integer id);
 	
+	public List<CustomChartDto> findAllChartYearly();
 }

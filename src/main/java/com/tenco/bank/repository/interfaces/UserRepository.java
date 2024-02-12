@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.tenco.bank.dto.CustomChartDto;
 import com.tenco.bank.dto.SignUpFormDto;
 import com.tenco.bank.repository.entity.User;
 
@@ -21,4 +22,5 @@ public interface UserRepository {
 	public User findByUsername(String username);
 	public User findByUsernameAndPassword(User user);
 	
+	public List<CustomChartDto> findAllChartWeekly();
 }

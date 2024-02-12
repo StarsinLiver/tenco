@@ -36,4 +36,12 @@
 		select * from account_tb where id = #{id}
 	</select>
 
+	<select id="findAllChartYearly"
+		resultType="com.tenco.bank.dto.CustomChartDto">
+		select count(*) as count , created_at as createdAt from history_tb
+		where created_at between date_format(DATE_ADD(NOW(),INTERVAL -1 year
+		),'%Y-%m-%d') and date_format(now() ,'%Y-%m-%d')
+		group by date_format(created_at,'%Y-%m')
+	</select>
+
 </mapper>

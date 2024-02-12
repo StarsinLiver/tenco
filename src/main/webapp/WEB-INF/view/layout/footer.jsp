@@ -22,6 +22,9 @@
 	src="/assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
 <script src="/assets/vendor/chartist/js/chartist.min.js"></script>
 <script src="/assets/scripts/klorofil-common.js"></script>
+<!-- 차트 -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <script>
 	$(function() {
 		var data, options;
@@ -137,8 +140,35 @@
 		function getRandomInt(min, max) {
 			return Math.floor(Math.random() * (max - min + 1)) + min;
 		}
-
+		
+		let user = "${userList}";
+		
+		
+		// 차트 문항
+		new Chart(document.getElementById("bar-chart"), {
+			type : 'bar',
+			data : {
+				labels : [ "Africa", "Asia", "Europe", "Latin America",
+						"North America" ],
+				datasets : [ {
+					label : "Population (millions)",
+					backgroundColor : [ "#3e95cd", "#8e5ea2", "#3cba9f",
+							"#e8c3b9", "#c45850" ],
+					data : [ 2478, 5267, 734, 784, 433 ]
+				} ]
+			},
+			options : {
+				legend : {
+					display : false
+				},
+				title : {
+					display : true,
+					text : 'Predicted world population (millions) in 2050'
+				}
+			}
+		});
 	});
 	</script>
+
 </body>
 </html>
